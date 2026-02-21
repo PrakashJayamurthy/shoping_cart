@@ -2,11 +2,10 @@ name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
 
@@ -28,7 +27,6 @@ jobs:
       - name: Run E2E Tests
         run: npm run test:e2e
 
-
   docker:
     needs: test
     runs-on: ubuntu-latest
@@ -36,14 +34,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        run: docker build -t shopping-cart-ee .
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # OPTIONAL push step
-      # - name: Login DockerHub
-      #   run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
-      #
-      # - name: Push Image
-      #   run: |
-      #     docker tag shopping-cart-ee yourname/shopping-cart-ee:latest
-      #     docker push yourname/shopping-cart-ee:latest
+      - name: Build Image
+        run: docker build -t prakash061994/shopping-cart-ee:latest .
+
+      - name: Push Image
+        run: docker push prakash061994/shopping-cart-ee:latest
