@@ -1,0 +1,137 @@
+/* --- CART PAGE --- */
+.cart-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 32px 0 0 0;
+  text-align: center;
+}
+
+.cart-page h2 {
+  margin-bottom: 24px;
+}
+
+.back-to-shop {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.back-to-shop:hover {
+  color: #e0a800;
+}
+
+/* --- CART COMPONENT --- */
+.cart {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 18px 18px 18px;
+  box-shadow: var(--shadow);
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.cart h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-product-image {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f7f7f7;
+  border: 1px solid #eee;
+  flex-shrink: 0;
+  margin-right: 8px;
+  display: block;
+}
+
+.cart-quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* quantity-btn and quantity-value are shared with product, but this override is fine if you want them smaller in cart */
+.quantity-btn {
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.quantity-btn:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.quantity-value {
+  min-width: 22px;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: var(--primary);
+  background: #f7f7f7;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #d32f2f;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 0 2px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.remove-btn:hover,
+.remove-btn:focus {
+  background: #ffeaea;
+}
+
+.cart-total {
+  margin-top: 18px;
+  font-size: 1.13rem;
+  text-align: right;
+  font-weight: bold;
+  color: var(--accent);
+}

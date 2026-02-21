@@ -1,0 +1,247 @@
+/* --- PRODUCT LIST SECTION --- */
+.product-list-section {
+  width: 100%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+  background: transparent;
+  margin-bottom: 0;
+  padding-bottom: 72px; /* Space for pagination */
+}
+
+/* Grid layout for products */
+.product-list {
+  display: grid;
+  width: 100%;
+  min-height: 320px;
+  gap: 32px;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 per row on large screens */
+  justify-items: stretch;
+}
+
+/* --- PRODUCT CARD --- */
+.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  /* width: 320px;  <-- removed to allow grid to control width */
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 0;
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+  transform: translateY(-3px) scale(1.01);
+  border-color: var(--accent);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background: #f7f7f7;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 18px 0;
+  display: block;
+}
+
+.product-info {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px 18px 0 18px;
+}
+
+.product-title {
+  font-size: 1.13rem;
+  margin: 0 0 8px 0;
+  text-align: left;
+  font-weight: 600;
+  color: var(--primary);
+  min-height: 48px;
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Show up to 2 lines, then ellipsis */
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.product-price {
+  color: var(--accent);
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.08rem;
+}
+
+.product-description {
+  font-size: 0.97rem;
+  margin-bottom: 8px;
+  text-align: left;
+  color: #444;
+  min-height: 48px;
+  max-height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  transition: max-height 0.2s;
+}
+
+.product-description.expanded {
+  max-height: 300px; /* Large enough to show most descriptions */
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.desc-toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.97rem;
+  padding: 0;
+  margin-bottom: 8px;
+  text-decoration: underline;
+}
+
+.desc-toggle:hover,
+.desc-toggle:focus {
+  color: #e0a800;
+}
+
+.product-card-footer {
+  padding: 16px 18px 18px 18px;
+  background: transparent;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 60px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+/* these buttons share names with cart quantity, but styling is same */
+.quantity-btn {
+  background: var(--accent);
+  color: var(--primary);
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.quantity-btn:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.quantity-btn:hover,
+.quantity-btn:focus {
+  background: #e0a800;
+  outline: 2px solid var(--primary);
+}
+
+.quantity-value {
+  min-width: 28px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: var(--primary);
+  background: #f7f7f7;
+  border-radius: 6px;
+  padding: 2px 8px;
+  border: 1px solid #eee;
+}
+
+/* --- PAGINATION --- */
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  z-index: 2;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.pagination-btn,
+.pagination button {
+  background: #fff;
+  border: 1.5px solid var(--border, #e0e0e0);
+  color: var(--primary, #1d1d1b);
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 1.12rem;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-btn.active,
+.pagination button.active,
+.pagination-btn[aria-current="page"],
+.pagination button[aria-current="page"] {
+  background: var(--accent, #f9b000);
+  color: var(--primary, #1d1d1b);
+  border-color: var(--accent, #f9b000);
+  font-weight: bold;
+}
+
+.pagination-btn:disabled,
+.pagination button:disabled {
+  background: #f3f3f3;
+  color: #bbb;
+  border-color: #eee;
+  cursor: not-allowed;
+}
+
+.pagination-btn:hover:not(:disabled),
+.pagination button:hover:not(:disabled) {
+  background: #fffbe6;
+  border-color: var(--accent, #f9b000);
+  color: var(--primary, #1d1d1b);
+}
