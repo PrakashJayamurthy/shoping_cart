@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,3 +45,25 @@ jobs:
 
       - name: Push Image
         run: docker push prakash061994/shopping-cart-ee:latest
+
+  deploy:
+    runs-on: self-hosted
+    needs: build-test
+
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+      KUBECONFIG_PATH: ~/.kube/config
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare lowercase repo name
+        id: repo
+        run: |
+          USERNAME=$(echo "${{ secrets.DOCKER_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          echo "repo=$USERNAME/shopping-cart-ee" >> $GITHUB_OUTPUT
+
+      # --- Deploy kubernetes using docker desktop ---
+      - name: Deploy using k8's
+        run: kubectl apply -f k8s/deployment.yml && kubectl apply -f k8s/service.yml
