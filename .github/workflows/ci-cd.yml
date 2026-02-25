@@ -30,9 +30,23 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      image_repo: ${{ steps.image.outputs.repo }}
+      image_tag: ${{ steps.image.outputs.tag }}
+      image: ${{ steps.image.outputs.image }}
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Prepare image name
+        id: image
+        run: |
+          USERNAME=$(echo "${{ secrets.DOCKER_USERNAME }}" | tr '[:upper:]' '[:lower:]')
+          REPO="$USERNAME/shopping-cart-ee"
+          TAG="${{ github.sha }}"
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "image=$REPO:$TAG" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -41,28 +55,26 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Image
-        run: docker build -t prakash061994/shopping-cart-ee:latest .
+        run: docker build -t ${{ steps.image.outputs.image }} -t ${{ steps.image.outputs.repo }}:latest .
 
       - name: Push Image
-        run: docker push prakash061994/shopping-cart-ee:latest
+        run: |
+          docker push ${{ steps.image.outputs.image }}
+          docker push ${{ steps.image.outputs.repo }}:latest
 
   deploy:
     runs-on: self-hosted
     needs: build
 
     env:
-      IMAGE_TAG: ${{ github.sha }}
+      IMAGE_REPO: ${{ needs.build.outputs.image_repo }}
+      IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
+      IMAGE: ${{ needs.build.outputs.image }}
       KUBECONFIG_PATH: ~/.kube/config
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Prepare lowercase repo name
-        id: repo
-        run: |
-          USERNAME=$(echo "${{ secrets.DOCKER_USERNAME }}" | tr '[:upper:]' '[:lower:]')
-          echo "repo=$USERNAME/shopping-cart-ee" >> $GITHUB_OUTPUT
 
       # --- Deploy kubernetes using docker desktop ---
       - name: Deploy using k8's
