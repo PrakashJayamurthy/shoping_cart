@@ -78,4 +78,9 @@ jobs:
 
       # --- Deploy kubernetes using docker desktop ---
       - name: Deploy using k8's
-        run: kubectl apply -f k8s/deployment.yaml && kubectl apply -f k8s/service.yaml
+        run: |
+          # Replace the image tag with the exact SHA so Kubernetes always detects a change
+          sed -i "s|image: .*shopping-cart-ee:.*|image: $IMAGE|g" k8s/deployment.yaml
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
+          kubectl rollout status deployment/shopping-cart

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: shopping-cart
-          image: prakash061994/shopping-cart-ee:latest
+          image: prakash061994/shopping-cart-ee:latest   # replaced at deploy time by CI with the exact SHA tag
           imagePullPolicy: Always
           ports:
             - containerPort: 80
