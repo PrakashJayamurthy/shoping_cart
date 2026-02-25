@@ -79,8 +79,14 @@ jobs:
       # --- Deploy kubernetes using docker desktop ---
       - name: Deploy using k8's
         run: |
-          # Replace the image tag with the exact SHA so Kubernetes always detects a change
-          sed -i "s|image: .*shopping-cart-ee:.*|image: $IMAGE|g" k8s/deployment.yaml
+          # Validate IMAGE is not empty before deploying
+          if [ -z "$IMAGE" ]; then
+            echo "ERROR: IMAGE variable is empty. Cannot deploy."
+            exit 1
+          fi
+          echo "Deploying image: $IMAGE"
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+          # Update the container image to the exact SHA tag so Kubernetes always detects a change
+          kubectl set image deployment/shopping-cart shopping-cart=$IMAGE
           kubectl rollout status deployment/shopping-cart
