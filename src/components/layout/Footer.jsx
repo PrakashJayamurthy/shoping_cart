@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer__container">
         <div className="footer__left">
-          <span>© {new Date().getFullYear()} Equal Experts Store ci/cd test478</span>
+          <span>© {new Date().getFullYear()} Equal Experts Store ci/cd test4778</span>
         </div>
         <div className="footer__right">
           <Link to="/" className="footer__link">
